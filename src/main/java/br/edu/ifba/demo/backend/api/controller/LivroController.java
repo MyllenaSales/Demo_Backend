@@ -20,6 +20,23 @@ public class LivroController {
         this.livroRepository = livroRepository;
     }
 
+    @GetMapping
+	public String teste() {
+		return "Testando Rota Livro";
+	}
+
+    @GetMapping("/debug/{id}") 
+    public String debugFindById(@PathVariable Long id) {
+    return livroRepository.findById(id).toString();
+    }
+
+    @GetMapping("/testRepository/{id}")
+    public String testRepository(@PathVariable Long id) {
+    Optional<LivroModel> livro = livroRepository.findById(id);
+    return livro.isPresent() ? "Livro encontrado: " + livro.get().getTitulo() : "Livro não encontrado";
+    }
+
+
     // Método para listar todos os livros
     @GetMapping("/listall")
     public List<LivroModel> listAll() {
@@ -67,4 +84,6 @@ public class LivroController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    
 }

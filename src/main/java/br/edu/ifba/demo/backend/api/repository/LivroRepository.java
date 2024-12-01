@@ -8,3 +8,6 @@ public interface LivroRepository extends JpaRepository<LivroModel, Long> {
     Optional<LivroModel> findByIsbn(String isbn);
     Optional<LivroModel> findByTitulo(String titulo);
 }
+
+
+
