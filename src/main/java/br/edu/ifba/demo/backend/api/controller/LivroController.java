@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/livro")
+@RequestMapping("/livros")
 public class LivroController {
 
     private final LivroRepository livroRepository;
@@ -24,18 +24,6 @@ public class LivroController {
 	public String teste() {
 		return "Testando Rota Livro";
 	}
-
-    @GetMapping("/debug/{id}") 
-    public String debugFindById(@PathVariable Long id) {
-    return livroRepository.findById(id).toString();
-    }
-
-    @GetMapping("/testRepository/{id}")
-    public String testRepository(@PathVariable Long id) {
-    Optional<LivroModel> livro = livroRepository.findById(id);
-    return livro.isPresent() ? "Livro encontrado: " + livro.get().getTitulo() : "Livro não encontrado";
-    }
-
 
     // Método para listar todos os livros
     @GetMapping("/listall")
@@ -75,7 +63,7 @@ public class LivroController {
     }
 
     // Método para excluir um livro
-    @DeleteMapping("/{id_livro}")
+    @DeleteMapping("/delete/{id_livro}")
     public ResponseEntity<Void> deleteLivro(@PathVariable Long id_livro) {
         if (livroRepository.existsById(id_livro)) {
             livroRepository.deleteById(id_livro);
