@@ -58,8 +58,8 @@ public class LivroController {
     // Método para adicionar um novo livro
     @PostMapping
     public ResponseEntity<LivroDTO> addLivro(@RequestBody LivroModel livro) {
-        LivroModel savedLivro = livroRepository.save(livro);
-        return new ResponseEntity<>(new LivroDTO(savedLivro), HttpStatus.CREATED);
+        LivroModel save = livroRepository.save(livro);
+        return new ResponseEntity<>(new LivroDTO(save), HttpStatus.CREATED);
     }
 
     // Método para excluir um livro
