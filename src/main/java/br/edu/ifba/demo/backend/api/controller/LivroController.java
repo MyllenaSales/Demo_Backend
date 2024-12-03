@@ -22,11 +22,11 @@ public class LivroController {
 
     @GetMapping
 	public String teste() {
-		return "Testando Rota Livro";
+		return "Testando Rota Livro - As outras rotas estão em Camel case, ex: findById, findByTitulo";
 	}
 
     // Método para listar todos os livros
-    @GetMapping("/listall")
+    @GetMapping("/listAll")
     public List<LivroModel> listAll() {
         return livroRepository.findAll();
     }
