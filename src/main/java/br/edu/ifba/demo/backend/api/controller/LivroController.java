@@ -22,7 +22,7 @@ public class LivroController {
 
     @GetMapping
 	public String teste() {
-		return "Testando Rota Livro - As outras rotas estão em Camel case, ex: findById, findByTitulo";
+		return "Testando Rota Livro - As outras rotas estão em Camel case, ex: findById, findByTitulo, findByIsbn";
 	}
 
     // Método para listar todos os livros
@@ -58,20 +58,33 @@ public class LivroController {
     // Método para adicionar um novo livro
     @PostMapping
     public ResponseEntity<LivroDTO> addLivro(@RequestBody LivroModel livro) {
-        LivroModel save = livroRepository.save(livro);
-        return new ResponseEntity<>(new LivroDTO(save), HttpStatus.CREATED);
-    }
+        try {
+            System.out.println("Livro recebido no backend: " + livro);
+            LivroModel save = livroRepository.save(livro);
+    
+            return new ResponseEntity<>(new LivroDTO(save), HttpStatus.CREATED);
+        } catch (Exception e) {
+            // Registra o erro no console
+            System.err.println("Erro ao salvar livro: " + e.getMessage());
+            e.printStackTrace();
 
-    // Método para excluir um livro
-    @DeleteMapping("/delete/{id_livro}")
-    public ResponseEntity<Void> deleteLivro(@PathVariable Long id_livro) {
-        if (livroRepository.existsById(id_livro)) {
-            livroRepository.deleteById(id_livro);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/delete/{id_livro}")
+    public ResponseEntity<Void> deleteLivro(@PathVariable Long id_livro) {
+        Optional<LivroModel> livro = livroRepository.findById(id_livro);
+        
+        if (livro.isPresent()) {
+            livroRepository.delete(livro.get());
+            System.out.println("Livro deletado com sucesso, ID: " + id_livro); 
+            return ResponseEntity.noContent().build();
+        } else {
+            System.out.println("Livro não encontrado, ID: " + id_livro); 
+            return ResponseEntity.notFound().build(); 
+        }
+    }    
 
     
 }
