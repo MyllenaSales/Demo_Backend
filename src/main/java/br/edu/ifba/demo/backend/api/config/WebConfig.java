@@ -1,4 +1,4 @@
-package br.edu.ifba.demo.backend.config;
+package br.edu.ifba.demo.backend.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
