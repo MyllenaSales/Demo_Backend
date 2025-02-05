@@ -20,6 +20,31 @@ public class LivroController {
         this.livroRepository = livroRepository;
     }
 
+    // In LivroController.java
+
+// Método para atualizar um livro existente
+@PutMapping("/update/{id}")
+public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody LivroModel livro) {
+    Optional<LivroModel> existingLivro = livroRepository.findById(id);
+    if (existingLivro.isPresent()) {
+        LivroModel livroToUpdate = existingLivro.get();
+        livroToUpdate.setTitulo(livro.getTitulo());
+        livroToUpdate.setAutor(livro.getAutor());
+        livroToUpdate.setEditora(livro.getEditora());
+        livroToUpdate.setAno_publicacao(livro.getAno_publicacao());
+        livroToUpdate.setGenero(livro.getGenero());
+        livroToUpdate.setIsbn(livro.getIsbn());
+        livroToUpdate.setNum_paginas(livro.getNum_paginas());
+        livroToUpdate.setSinopse(livro.getSinopse());
+        livroToUpdate.setIdioma(livro.getIdioma());
+        livroToUpdate.setPreco(livro.getPreco());
+
+        LivroModel updatedLivro = livroRepository.save(livroToUpdate);
+        return ResponseEntity.ok(new LivroDTO(updatedLivro));
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
     @GetMapping
 	public String teste() {
 		return "Testando Rota Livro - As outras rotas estão em Camel case, ex: findById, findByTitulo, findByIsbn";
