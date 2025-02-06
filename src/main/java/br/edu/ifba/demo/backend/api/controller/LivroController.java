@@ -1,9 +1,10 @@
 package br.edu.ifba.demo.backend.api.controller;
 
 import br.edu.ifba.demo.backend.api.dto.LivroDTO;
+import br.edu.ifba.demo.backend.api.model.GeneroModel;
 import br.edu.ifba.demo.backend.api.model.LivroModel;
+import br.edu.ifba.demo.backend.api.repository.GeneroRepository;
 import br.edu.ifba.demo.backend.api.repository.LivroRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +14,25 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/livros")
 public class LivroController {
-
     private final LivroRepository livroRepository;
+    private final GeneroRepository generoRepository;
 
-    public LivroController(LivroRepository livroRepository) {
+    public LivroController(LivroRepository livroRepository, GeneroRepository generoRepository) {
         this.livroRepository = livroRepository;
+        this.generoRepository = generoRepository;
     }
 
-    // In LivroController.java
-
+    @PostMapping
+    public ResponseEntity<LivroDTO> addLivro(@RequestBody LivroModel livro) {
+        Optional<GeneroModel> genero = generoRepository.findById(livro.getGenero().getId_genero());
+        if (genero.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        livro.setGenero(genero.get());
+        LivroModel savedLivro = livroRepository.save(livro);
+        return ResponseEntity.ok(new LivroDTO(savedLivro));
+    }
+    
 // Método para atualizar um livro existente
 @PutMapping("/update/{id}")
 public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody LivroModel livro) {
@@ -78,23 +89,6 @@ public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody 
         Optional<LivroModel> livro = livroRepository.findByTitulo(titulo);
         return livro.map(l -> ResponseEntity.ok(new LivroDTO(l)))
                     .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Método para adicionar um novo livro
-    @PostMapping
-    public ResponseEntity<LivroDTO> addLivro(@RequestBody LivroModel livro) {
-        try {
-            System.out.println("Livro recebido no backend: " + livro);
-            LivroModel save = livroRepository.save(livro);
-    
-            return new ResponseEntity<>(new LivroDTO(save), HttpStatus.CREATED);
-        } catch (Exception e) {
-            // Registra o erro no console
-            System.err.println("Erro ao salvar livro: " + e.getMessage());
-            e.printStackTrace();
-
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/delete/{id_livro}")

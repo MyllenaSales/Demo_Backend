@@ -2,14 +2,12 @@ package br.edu.ifba.demo.backend.api.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "livro")
 public class LivroModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_livro")
@@ -27,9 +25,9 @@ public class LivroModel {
     @Column(name = "ano_publicacao")
     private Integer ano_publicacao;
 
-    @Column(name = "genero")
-    private String genero;
-
+    @ManyToOne
+@JoinColumn(name = "genero_id_genero", nullable = false)
+private GeneroModel genero;
     @Column(name = "isbn", unique = true)
     private String isbn;
 

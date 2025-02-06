@@ -1,18 +1,17 @@
 package br.edu.ifba.demo.backend.api.dto;
 
+import br.edu.ifba.demo.backend.api.model.GeneroModel;
 import br.edu.ifba.demo.backend.api.model.LivroModel;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class LivroDTO implements Serializable {
-
     private Long id_livro;
     private String titulo;
     private String autor;
     private String editora;
     private Integer ano_publicacao;
-    private String genero;
+    private GeneroModel genero;
     private String isbn;
     private Integer num_paginas;
     private String sinopse;
@@ -37,7 +36,6 @@ public class LivroDTO implements Serializable {
         this.preco = livroModel.getPreco();
     }
 
-    // Getters and setters
     public Long getId_livro() {
         return id_livro;
     }
@@ -78,11 +76,11 @@ public class LivroDTO implements Serializable {
         this.ano_publicacao = ano_publicacao;
     }
 
-    public String getGenero() {
+    public GeneroModel getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(GeneroModel genero) {
         this.genero = genero;
     }
 
