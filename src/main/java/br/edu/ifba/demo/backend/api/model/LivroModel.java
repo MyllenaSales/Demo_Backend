@@ -26,8 +26,9 @@ public class LivroModel {
     private Integer ano_publicacao;
 
     @ManyToOne
-@JoinColumn(name = "genero_id_genero", nullable = false)
-private GeneroModel genero;
+    @JoinColumn(name = "genero_id_genero", nullable = false)
+    private GeneroModel genero;
+    
     @Column(name = "isbn", unique = true)
     private String isbn;
 

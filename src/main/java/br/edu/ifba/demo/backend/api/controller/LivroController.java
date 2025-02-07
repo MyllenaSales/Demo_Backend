@@ -33,7 +33,6 @@ public class LivroController {
         return ResponseEntity.ok(new LivroDTO(savedLivro));
     }
     
-// Método para atualizar um livro existente
 @PutMapping("/update/{id}")
 public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody LivroModel livro) {
     Optional<LivroModel> existingLivro = livroRepository.findById(id);
@@ -61,13 +60,11 @@ public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody 
 		return "Testando Rota Livro - As outras rotas estão em Camel case, ex: findById, findByTitulo, findByIsbn";
 	}
 
-    // Método para listar todos os livros
     @GetMapping("/listAll")
     public List<LivroModel> listAll() {
         return livroRepository.findAll();
     }
 
-    // Método para consultar livro por ID
     @GetMapping("/findById/{id}")
     public ResponseEntity<LivroDTO> findById(@PathVariable("id") Long id) {
         Optional<LivroModel> livro = livroRepository.findById(id);
@@ -75,7 +72,6 @@ public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody 
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Método para consultar livro por ISBN
     @GetMapping("/findByIsbn/{isbn}")
     public ResponseEntity<LivroDTO> findByIsbn(@PathVariable("isbn") String isbn) {
         Optional<LivroModel> livro = livroRepository.findByIsbn(isbn);
@@ -83,7 +79,6 @@ public ResponseEntity<LivroDTO> updateLivro(@PathVariable Long id, @RequestBody 
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Método para consultar livro por título
     @GetMapping("/findByTitulo/{titulo}")
     public ResponseEntity<LivroDTO> findByTitulo(@PathVariable("titulo") String titulo) {
         Optional<LivroModel> livro = livroRepository.findByTitulo(titulo);

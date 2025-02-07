@@ -18,7 +18,6 @@ public class GeneroController {
         this.generoRepository = generoRepository;
     }
 
-    // List all genres
     @GetMapping("/listAll")
     public List<GeneroModel> listAll() {
         return generoRepository.findAll();
